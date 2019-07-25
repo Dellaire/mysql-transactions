@@ -1,43 +1,43 @@
 package de.clumsystuff.mysql.transactions;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TransactionTest {
 
-	@Autowired
-	private DataObjectDataStore dataObjectDataStore;
+    @Autowired
+    private DataObjectDataStore dataObjectDataStore;
 
-	@After
-	public void cleanUp() {
-		this.dataObjectDataStore.clearAll();
-	}
+    @Before
+    public void cleanUp() {
+        this.dataObjectDataStore.clearAll();
+    }
 
-	@Test
-	public void commitInCaseOfNoError() {
+    @Test
+    public void commitInCaseOfNoError() {
 
-		this.dataObjectDataStore.saveSuccess(new DataObject("Tony", "Test"));
+        this.dataObjectDataStore.saveSuccess(new DataObject("Tony", "Test"), new DataObject("Tina", "Test"));
 
-		assertThat(this.dataObjectDataStore.readAll().size(), is(2));
-	}
+        assertThat(this.dataObjectDataStore.readAll().size(), is(2));
+    }
 
-	@Test
-	public void rollbackInCaseOfError() {
+    @Test
+    public void rollbackInCaseOfError() {
 
-		try {
-			this.dataObjectDataStore.saveFail(new DataObject("Tony", "Test"));
-		} catch (Exception e) {
-		}
+        try {
+            this.dataObjectDataStore.saveFail(new DataObject("Tony", "Test"), new DataObject("Tina", "Test"));
+        } catch (Exception e) {
+        }
 
-		assertThat(this.dataObjectDataStore.readAll().size(), is(0));
-	}
+        assertThat(this.dataObjectDataStore.readAll().size(), is(0));
+    }
 }
