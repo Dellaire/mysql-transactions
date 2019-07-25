@@ -17,6 +17,9 @@ public class TransactionTest {
     @Autowired
     private DataObjectDataStore dataObjectDataStore;
 
+    @Autowired
+    private OuterLayer outerLayer;
+
     @Before
     public void cleanUp() {
         this.dataObjectDataStore.clearAll();
@@ -25,7 +28,7 @@ public class TransactionTest {
     @Test
     public void commitInCaseOfNoError() {
 
-        this.dataObjectDataStore.saveSuccess(new DataObject("Tony", "Test"), new DataObject("Tina", "Test"));
+        this.outerLayer.saveSuccess(new DataObject("Tony", "Test"), new DataObject("Tina", "Test"));
 
         assertThat(this.dataObjectDataStore.readAll().size(), is(2));
     }
@@ -34,7 +37,7 @@ public class TransactionTest {
     public void rollbackInCaseOfError() {
 
         try {
-            this.dataObjectDataStore.saveFail(new DataObject("Tony", "Test"), new DataObject("Tina", "Test"));
+            this.outerLayer.saveFail(new DataObject("Tony", "Test"), new DataObject("Tina", "Test"));
         } catch (Exception e) {
         }
 

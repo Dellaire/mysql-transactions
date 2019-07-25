@@ -2,7 +2,6 @@ package de.clumsystuff.mysql.transactions;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,7 +17,6 @@ public class DataObjectDataStore {
         this.dataObjectRepository.save(dataObject2);
     }
 
-    @Transactional
     public void saveFail(DataObject dataObject1, DataObject dataObject2) {
 
         this.dataObjectRepository.save(dataObject1);
