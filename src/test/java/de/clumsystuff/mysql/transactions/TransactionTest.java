@@ -1,16 +1,15 @@
 package de.clumsystuff.mysql.transactions;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.hamcrest.CoreMatchers.is;
+
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import de.clumsystuff.mysql.transactions.model.DataObject;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class TransactionTest {
 
@@ -20,7 +19,7 @@ public class TransactionTest {
     @Autowired
     private OuterLayer outerLayer;
 
-    @Before
+    @BeforeEach
     public void cleanUp() {
         this.dataObjectDataStore.clearAll();
     }
@@ -30,7 +29,8 @@ public class TransactionTest {
 
         this.outerLayer.saveSuccess(new DataObject("Tony", "Test"), new DataObject("Tina", "Test"));
 
-        assertThat(this.dataObjectDataStore.readAll().size(), is(2));
+        
+        MatcherAssert.assertThat(this.dataObjectDataStore.readAll().size(), is(2));
     }
 
     @Test
@@ -41,6 +41,6 @@ public class TransactionTest {
         } catch (Exception e) {
         }
 
-        assertThat(this.dataObjectDataStore.readAll().size(), is(0));
+        MatcherAssert.assertThat(this.dataObjectDataStore.readAll().size(), is(0));
     }
 }

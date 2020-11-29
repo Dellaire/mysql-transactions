@@ -1,4 +1,4 @@
-package de.clumsystuff.mysql.transactions;
+package de.clumsystuff.mysql.transactions.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
